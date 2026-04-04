@@ -33,7 +33,7 @@
 		177D65692F81A87C0051FED6 /* Exceptions for "MultiBankTrading" folder in "MultiBankTrading" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
-				Info.plist,
+				App/Info.plist,
 			);
 			target = 177D65402F81A87A0051FED6 /* MultiBankTrading */;
 		};
@@ -291,7 +291,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = CTCDYCPL5J;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = MultiBankTrading/Info.plist;
+				INFOPLIST_FILE = MultiBankTrading/App/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -323,7 +323,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = CTCDYCPL5J;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = MultiBankTrading/Info.plist;
+				INFOPLIST_FILE = MultiBankTrading/App/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
