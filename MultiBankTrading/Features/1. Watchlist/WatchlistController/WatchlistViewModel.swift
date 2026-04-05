@@ -56,6 +56,14 @@ final class WatchlistViewModel {
 		applySortAndFilter()
 	}
 	
+	/// Latest row data for a symbol (matches watchlist / filtered list).
+	func broadcastModel(forTokenId tokenId: String) -> BroadcastModel? {
+		if let fromFiltered = filteredStocks.first(where: { $0.tokenId == tokenId }) {
+			return fromFiltered
+		}
+		return stocks.first { $0.tokenId == tokenId }
+	}
+	
 	// MARK: - Private
 	
 	private func applySortAndFilter() {

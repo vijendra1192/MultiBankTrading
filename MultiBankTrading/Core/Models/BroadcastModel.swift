@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 enum PriceDirection: Codable {
 	case up
@@ -17,6 +18,7 @@ enum PriceDirection: Codable {
 public struct BroadcastModel: Codable {
 	var tokenId: String = ""
 	var name: String = ""
+	var fullName: String = ""
 	var country: String = ""
 	var openPrice: Double = 0.0
 	var latestPrice: Double = 0.0

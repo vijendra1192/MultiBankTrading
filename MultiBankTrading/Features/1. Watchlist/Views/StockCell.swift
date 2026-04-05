@@ -110,7 +110,7 @@ final class StockCell: UITableViewCell {
 	
 	func configure(with model: BroadcastModel) {
 		symbolLabel.text = model.tokenId
-		companyLabel.text = "\(model.description) · \(model.country)"
+		companyLabel.text = "\(model.country)"
 		priceLabel.text = String(format: "$%.2f", model.latestPrice)
 		
 		let sign: String

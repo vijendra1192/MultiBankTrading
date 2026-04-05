@@ -7,6 +7,7 @@
 
 import Foundation
 
+// MARK: script cases
 enum StockSymbol: String, CaseIterable {
 	
 	case AAPL_OQ = "AAPL.OQ"
@@ -47,6 +48,7 @@ enum StockSymbol: String, CaseIterable {
 	}
 }
 
+// MARK: script price range & open price
 extension StockSymbol {
 	
 	var range: ClosedRange<Double> {
@@ -124,42 +126,148 @@ extension StockSymbol {
 	}
 }
 
+// MARK: script description
 extension StockSymbol {
 	
 	var description: String {
 		switch self {
-			case .AAPL_OQ: return "Apple Inc. - Consumer electronics and iPhones"
-			case .CA_PA: return "Carrefour - French multinational retail corporation"
-			case .CDI_PA: return "Christian Dior - Luxury fashion brand"
-			case .CPRI_N: return "Capri Holdings - Luxury fashion group (Michael Kors, Versace)"
-			case .DIS_N: return "Disney - Media, entertainment, and theme parks"
-			case .EL_N: return "Estee Lauder - Cosmetics and skincare"
-			case .F_N: return "Ford - Automobile manufacturer"
-			case .GM_N: return "General Motors - Automobile manufacturer"
-			case .GOOGL_OQ: return "Alphabet (Google) - Search, ads, and cloud"
-			case .MCD_N: return "McDonald's - Fast food chain"
-			case .MSFT_OQ: return "Microsoft - Software, cloud, and AI"
-			case .MSGS_N: return "Madison Square Garden Sports - Sports teams business"
-			case .NKE_N: return "Nike - Sportswear and footwear"
-			case .PEP_N: return "PepsiCo - Food and beverages"
-			case .PG_N: return "Procter & Gamble - Consumer goods"
-			case .RACE_N: return "Ferrari - Luxury sports cars"
-			case .RMS_PA: return "Hermes - Luxury fashion brand"
-			case .TM_N: return "Toyota - Automobile manufacturer"
-			case .TSLA_OQ: return "Tesla - Electric vehicles and energy"
-			case .VOW: return "Volkswagen - Automobile manufacturer"
-			case .WMT: return "Walmart - Retail corporation"
-			case .AMZN: return "Amazon - E-commerce and cloud"
-			case .AVGO: return "Broadcom - Semiconductor company"
-			case .META: return "Meta - Social media and VR"
-			case .CSCO: return "Cisco - Networking and IT infrastructure"
-			case .LLY: return "Eli Lilly - Pharmaceutical company"
-			case .JPM: return "JPMorgan Chase - Banking and financial services"
-			case .XOM: return "ExxonMobil - Oil and gas"
-			case .JNJ: return "Johnson & Johnson - Healthcare products"
-			case .MA: return "Mastercard - Payment network"
-			case .KO: return "Coca-Cola - Beverages"
-			case .ORCL: return "Oracle - Database and cloud services"
+				
+			case .AAPL_OQ:
+				return "Apple Inc. designs and manufactures consumer electronics like iPhone, Mac, and iPad.\nIt also provides services including App Store, iCloud, and Apple Music."
+				
+			case .CA_PA:
+				return "Carrefour is a leading French multinational retail corporation.\nIt operates hypermarkets, supermarkets, and convenience stores globally."
+				
+			case .CDI_PA:
+				return "Christian Dior is a globally recognized luxury fashion house.\nIt specializes in haute couture, ready-to-wear, and premium accessories."
+				
+			case .CPRI_N:
+				return "Capri Holdings is a global fashion luxury group.\nIt owns brands like Michael Kors, Versace, and Jimmy Choo."
+				
+			case .DIS_N:
+				return "Disney is a global leader in entertainment and media.\nIts businesses include movies, streaming, and theme parks."
+				
+			case .EL_N:
+				return "Estée Lauder is a premium cosmetics and skincare company.\nIt owns multiple luxury beauty brands worldwide."
+				
+			case .F_N:
+				return "Ford is a major American automobile manufacturer.\nIt focuses on trucks, SUVs, and electric vehicle innovation."
+				
+			case .GM_N:
+				return "General Motors is a global automotive company.\nIt produces vehicles under brands like Chevrolet, GMC, and Cadillac."
+				
+			case .GOOGL_OQ:
+				return "Alphabet is the parent company of Google.\nIt leads in search, advertising, cloud computing, and AI technologies."
+				
+			case .MCD_N:
+				return "McDonald's is the world’s largest fast-food chain.\nIt operates restaurants across more than 100 countries."
+				
+			case .MSFT_OQ:
+				return "Microsoft develops software, cloud, and enterprise solutions.\nKey products include Windows, Azure, and Office."
+				
+			case .MSGS_N:
+				return "MSG Sports owns professional sports teams.\nIt includes the New York Knicks and New York Rangers."
+				
+			case .NKE_N:
+				return "Nike is a global leader in sportswear and footwear.\nIt designs athletic apparel and performance gear."
+				
+			case .PEP_N:
+				return "PepsiCo produces food and beverage products.\nIts portfolio includes Pepsi, Lay’s, and Gatorade."
+				
+			case .PG_N:
+				return "Procter & Gamble manufactures consumer goods.\nBrands include Tide, Pampers, and Gillette."
+				
+			case .RACE_N:
+				return "Ferrari designs luxury sports cars.\nIt is known for performance vehicles and racing heritage."
+				
+			case .RMS_PA:
+				return "Hermès is a luxury fashion and lifestyle brand.\nIt is famous for high-end leather goods and accessories."
+				
+			case .TM_N:
+				return "Toyota is one of the largest automobile manufacturers.\nIt is known for reliability and hybrid technology."
+				
+			case .TSLA_OQ:
+				return "Tesla focuses on electric vehicles and clean energy.\nIt also develops batteries and solar products."
+				
+			case .VOW:
+				return "Volkswagen is a major global automotive group.\nIt owns brands like Audi, Porsche, and Skoda."
+				
+			case .WMT:
+				return "Walmart is the world’s largest retailer.\nIt operates stores and e-commerce platforms globally."
+				
+			case .AMZN:
+				return "Amazon is a leading e-commerce and cloud company.\nIts services include AWS, Prime, and logistics."
+				
+			case .AVGO:
+				return "Broadcom develops semiconductor and infrastructure software.\nIt serves data centers, networking, and wireless markets."
+				
+			case .META:
+				return "Meta operates social media platforms like Facebook and Instagram.\nIt is investing heavily in virtual reality and the metaverse."
+				
+			case .CSCO:
+				return "Cisco provides networking and IT infrastructure solutions.\nIt supports enterprise connectivity and security."
+				
+			case .LLY:
+				return "Eli Lilly is a pharmaceutical company.\nIt develops medicines for diabetes, cancer, and other diseases."
+				
+			case .JPM:
+				return "JPMorgan Chase is a global financial services firm.\nIt offers banking, investment, and asset management services."
+				
+			case .XOM:
+				return "ExxonMobil is a major oil and gas company.\nIt explores, produces, and refines energy resources."
+				
+			case .JNJ:
+				return "Johnson & Johnson is a healthcare company.\nIt produces pharmaceuticals, medical devices, and consumer health products."
+				
+			case .MA:
+				return "Mastercard operates a global payment network.\nIt enables secure digital transactions worldwide."
+				
+			case .KO:
+				return "Coca-Cola produces beverages sold globally.\nIts portfolio includes soft drinks, juices, and water."
+				
+			case .ORCL:
+				return "Oracle provides database and cloud solutions.\nIt supports enterprise software and infrastructure services."
+		}
+	}
+}
+
+// MARK: script full name
+extension StockSymbol {
+	
+	var fullName: String {
+		switch self {
+			case .AAPL_OQ: return "Apple Inc."
+			case .CA_PA: return "Carrefour S.A."
+			case .CDI_PA: return "Christian Dior SE"
+			case .CPRI_N: return "Capri Holdings Limited"
+			case .DIS_N: return "The Walt Disney Company"
+			case .EL_N: return "The Estée Lauder Companies Inc."
+			case .F_N: return "Ford Motor Company"
+			case .GM_N: return "General Motors Company"
+			case .GOOGL_OQ: return "Alphabet Inc."
+			case .MCD_N: return "McDonald's Corporation"
+			case .MSFT_OQ: return "Microsoft Corporation"
+			case .MSGS_N: return "Madison Square Garden Sports Corp."
+			case .NKE_N: return "NIKE, Inc."
+			case .PEP_N: return "PepsiCo, Inc."
+			case .PG_N: return "Procter & Gamble Company"
+			case .RACE_N: return "Ferrari N.V."
+			case .RMS_PA: return "Hermès International"
+			case .TM_N: return "Toyota Motor Corporation"
+			case .TSLA_OQ: return "Tesla, Inc."
+			case .VOW: return "Volkswagen AG"
+			case .WMT: return "Walmart Inc."
+			case .AMZN: return "Amazon.com, Inc."
+			case .AVGO: return "Broadcom Inc."
+			case .META: return "Meta Platforms, Inc."
+			case .CSCO: return "Cisco Systems, Inc."
+			case .LLY: return "Eli Lilly and Company"
+			case .JPM: return "JPMorgan Chase & Co."
+			case .XOM: return "Exxon Mobil Corporation"
+			case .JNJ: return "Johnson & Johnson"
+			case .MA: return "Mastercard Incorporated"
+			case .KO: return "The Coca-Cola Company"
+			case .ORCL: return "Oracle Corporation"
 		}
 	}
 }

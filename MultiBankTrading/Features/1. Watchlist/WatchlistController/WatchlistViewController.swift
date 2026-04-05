@@ -21,6 +21,7 @@ class WatchlistViewController: UIViewController {
 	
 	// MARK: - ViewModel
 	private let viewModel = WatchlistViewModel()
+	private weak var presentedStockDetails: StockDetailsViewController?
 	
 	// MARK: - Lifecycle
 	override func viewDidLoad() {
@@ -64,6 +65,7 @@ class WatchlistViewController: UIViewController {
 		filterButton.addTarget(self, action: #selector(filterButtonTapped), for: .touchUpInside)
 		
 		stockTableView.backgroundColor = .clear
+		stockTableView.allowsSelection = true
 		stockTableView.dataSource = self
 		stockTableView.delegate = self
 		stockTableView.register(StockCell.self, forCellReuseIdentifier: StockCell.reuseID)
@@ -72,6 +74,16 @@ class WatchlistViewController: UIViewController {
 	// MARK: - IBActions
 	@IBAction func feedButtonTapped() {
 		viewModel.toggleFeed()
+	}
+	
+	private func refreshPresentedStockDetailsIfNeeded(updatedIndices: [Int]) {
+		guard let details = presentedStockDetails else { return }
+		for index in updatedIndices where index < viewModel.filteredStocks.count {
+			if viewModel.filteredStocks[index].tokenId == details.tokenId {
+				details.refreshFromWatchlist()
+				return
+			}
+		}
 	}
 	
 	@objc private func filterButtonTapped() {
@@ -103,10 +115,12 @@ extension WatchlistViewController: WatchlistViewModelDelegate {
 				cell.configure(with: viewModel.filteredStocks[index])
 			}
 		}
+		refreshPresentedStockDetailsIfNeeded(updatedIndices: indices)
 	}
 	
 	func didReloadAllStocks() {
 		stockTableView.reloadData()
+		presentedStockDetails?.refreshFromWatchlist()
 	}
 	
 	func didChangeLiveState(isLive: Bool) {
@@ -130,6 +144,31 @@ extension WatchlistViewController: UITableViewDataSource, UITableViewDelegate {
 		}
 		cell.configure(with: viewModel.filteredStocks[indexPath.row])
 		return cell
+	}
+	
+	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+		tableView.deselectRow(at: indexPath, animated: true)
+		let model = viewModel.filteredStocks[indexPath.row]
+		
+		if let existing = presentedViewController as? StockDetailsViewController {
+			existing.tokenId = model.tokenId
+			existing.watchlistViewModel = viewModel
+			existing.configure(with: model)
+			presentedStockDetails = existing
+			return
+		}
+		
+		let details = StockDetailsViewController()
+		details.tokenId = model.tokenId
+		details.watchlistViewModel = viewModel
+		presentedStockDetails = details
+		
+		if let sheet = details.sheetPresentationController {
+			sheet.detents = [.medium(), .large()]
+			sheet.preferredCornerRadius = 20
+			sheet.prefersGrabberVisible = true
+		}
+		present(details, animated: true)
 	}
 	
 }

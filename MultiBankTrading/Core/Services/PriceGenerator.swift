@@ -44,6 +44,7 @@ final class PriceGenerator {
 			return BroadcastModel(
 				tokenId: symbol.rawValue,
 				name: symbol.rawValue,
+				fullName: symbol.fullName,
 				country: "US",
 				openPrice: base,
 				latestPrice: newPrice,
