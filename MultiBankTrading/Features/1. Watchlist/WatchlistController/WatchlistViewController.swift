@@ -75,7 +75,15 @@ class WatchlistViewController: UIViewController {
 	}
 	
 	@objc private func filterButtonTapped() {
-		// @vijendra need to implement
+		let sortFilterVC = SortFilterViewController()
+		sortFilterVC.currentSort = viewModel.currentSort
+		sortFilterVC.delegate = self
+		
+		if let sheet = sortFilterVC.sheetPresentationController {
+			sheet.detents = [.medium()]
+			sheet.preferredCornerRadius = 20
+		}
+		present(sortFilterVC, animated: true)
 	}
 	
 }
@@ -122,6 +130,15 @@ extension WatchlistViewController: UITableViewDataSource, UITableViewDelegate {
 		}
 		cell.configure(with: viewModel.filteredStocks[indexPath.row])
 		return cell
+	}
+	
+}
+
+// MARK: - SortFilterDelegate
+extension WatchlistViewController: SortFilterDelegate {
+	
+	func didSelectSort(_ option: SortOption) {
+		viewModel.applySort(option)
 	}
 	
 }
