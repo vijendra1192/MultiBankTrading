@@ -79,28 +79,10 @@ final class StockDetailsViewController: UIViewController {
 		countryLabel.text = model.fullName
 		priceLabel.text = String(format: "$%.2f", model.latestPrice)
 		
-		let sign: String
-		let arrow: String
-		let bgColor: UIColor
-		let textColor: UIColor
-		
-		switch model.priceDirection {
-		case .up:
-			sign = "+"
-			arrow = "\u{25B2} "
-			bgColor = AppColors.gainBadgeBg
-			textColor = AppColors.gainBadgeText
-		case .down:
-			sign = ""
-			arrow = "\u{25BC} "
-			bgColor = AppColors.lossBadgeBg
-			textColor = AppColors.lossBadgeText
-		case .neutral:
-			sign = ""
-			arrow = ""
-			bgColor = AppColors.neutralBadgeBg
-			textColor = AppColors.neutralBadgeText
-		}
+		let sign: String = model.priceUIConfig.sign
+		let arrow: String = model.priceUIConfig.arrow
+		let bgColor: UIColor = model.priceUIConfig.bgColor
+		let textColor: UIColor = model.priceUIConfig.textColor
 		
 		changeLabel.text = "  \(arrow)\(sign)\(String(format: "%.2f", model.percentChange))%  "
 		changeLabel.backgroundColor = bgColor

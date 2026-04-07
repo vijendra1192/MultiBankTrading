@@ -175,7 +175,6 @@ extension WatchlistViewModel: BroadcastSenderDelegate {
 			case .connected:
 				setLive(true)
 				startTimerIfNeeded()
-//				WebSocketManager.shared.sendRandomPrice(scripts: activeScriptTokens)
 				
 			case .disconnected:
 				setLive(false)

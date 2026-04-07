@@ -35,3 +35,40 @@ extension BroadcastModel: Equatable {
 	}
 	
 }
+
+struct PriceUIConfig {
+	let sign: String
+	let arrow: String
+	let bgColor: UIColor
+	let textColor: UIColor
+}
+
+// MARK: PriceUIConfig
+extension BroadcastModel {
+	
+	var priceUIConfig: PriceUIConfig {
+		switch priceDirection {
+			case .up:
+				return PriceUIConfig(
+					sign: "+",
+					arrow: "\u{25B2} ",
+					bgColor: AppColors.gainBadgeBg,
+					textColor: AppColors.gainBadgeText
+				)
+			case .down:
+				return PriceUIConfig(
+					sign: "",
+					arrow: "\u{25BC} ",
+					bgColor: AppColors.lossBadgeBg,
+					textColor: AppColors.lossBadgeText
+				)
+			case .neutral:
+				return PriceUIConfig(
+					sign: "",
+					arrow: "",
+					bgColor: AppColors.neutralBadgeBg,
+					textColor: AppColors.neutralBadgeText
+				)
+		}
+	}
+}
