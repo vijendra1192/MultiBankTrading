@@ -27,7 +27,7 @@ final class SortFilterViewController: UIViewController {
 	// MARK: - Init
 	
 	init() {
-		super.init(nibName: "SortFilterViewController", bundle: nil)
+        super.init(nibName: AppConstants.NibFileNames.sortAndFilterController, bundle: nil)
 	}
 	
 	required init?(coder: NSCoder) {
@@ -80,7 +80,7 @@ final class SortFilterViewController: UIViewController {
 	}
 	
 	@IBAction func filterByTapped() {
-		view.showToast(message: "Feature coming soon...")
+        view.showToast(message: AppConstants.MessageShow.featureComing)
 	}
 	
 }

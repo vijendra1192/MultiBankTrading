@@ -157,7 +157,7 @@ extension WatchlistViewController: WatchlistViewModelDelegate {
 	func didChangeLiveState(isLive: Bool) {
 		liveDot.isHidden = !isLive
 		liveLabel.isHidden = !isLive
-		feedButton.setTitle(isLive ? "Stop feed" : "Start feed", for: .normal)
+        feedButton.setTitle(isLive ? AppConstants.ButtonTitle.stopFeed : AppConstants.ButtonTitle.startFeed, for: .normal)
 	}
 	
 }

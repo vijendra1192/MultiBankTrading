@@ -29,7 +29,7 @@ final class WebSocketManager: NSObject, WebSocketManagerProtocol, URLSessionDele
 		isManualDisconnect = false
 		isConnected = false
 		webSocketTask?.cancel(with: .goingAway, reason: nil)
-		let endpoint = Constants.webSocketURLString
+		let endpoint = AppConstants.webSocketURLString
 		let url = URL(string: endpoint)
 		guard let url else { return }
 		webSocketTask = session.webSocketTask(with: url)
@@ -49,7 +49,7 @@ final class WebSocketManager: NSObject, WebSocketManagerProtocol, URLSessionDele
 	func reConnect() {
 		guard !isManualDisconnect else { return }
 		
-		DispatchQueue.main.asyncAfter(deadline: .now() + Constants.reconnectDelay) { [weak self] in
+		DispatchQueue.main.asyncAfter(deadline: .now() + AppConstants.reconnectDelay) { [weak self] in
 			self?.connect()
 		}
 	}

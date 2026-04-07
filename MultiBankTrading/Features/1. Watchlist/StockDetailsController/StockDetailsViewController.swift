@@ -21,7 +21,7 @@ final class StockDetailsViewController: UIViewController {
 	@IBOutlet private var sellButton: UIButton!
 	
 	init() {
-		super.init(nibName: "StockDetailsViewController", bundle: nil)
+        super.init(nibName: AppConstants.NibFileNames.stockDetailsController, bundle: nil)
 	}
 	
 	required init?(coder: NSCoder) {
@@ -55,8 +55,8 @@ final class StockDetailsViewController: UIViewController {
 		descriptionLabel.font = .systemFont(ofSize: 14, weight: .regular)
 		descriptionLabel.numberOfLines = 0
 		
-		styleActionButton(buyButton, title: "BUY", background: AppColors.gainBadgeBg, titleColor: AppColors.gainBadgeText)
-		styleActionButton(sellButton, title: "SELL", background: AppColors.lossBadgeBg, titleColor: AppColors.lossBadgeText)
+        styleActionButton(buyButton, title: AppConstants.ButtonTitle.buy, background: AppColors.gainBadgeBg, titleColor: AppColors.gainBadgeText)
+		styleActionButton(sellButton, title: AppConstants.ButtonTitle.sell, background: AppColors.lossBadgeBg, titleColor: AppColors.lossBadgeText)
 	}
 	
 	private func styleActionButton(_ button: UIButton, title: String, background: UIColor, titleColor: UIColor) {
@@ -93,11 +93,11 @@ final class StockDetailsViewController: UIViewController {
 	}
 	
 	@IBAction private func buyTapped(_ sender: UIButton) {
-		view.showToast(message: "Feature coming soon...")
+        view.showToast(message: AppConstants.MessageShow.featureComing)
 	}
 	
 	@IBAction private func sellTapped(_ sender: UIButton) {
-		view.showToast(message: "Feature coming soon...")
+		view.showToast(message: AppConstants.MessageShow.featureComing)
 	}
 	
 }
