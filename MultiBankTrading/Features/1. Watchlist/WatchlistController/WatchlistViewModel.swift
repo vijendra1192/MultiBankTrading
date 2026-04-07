@@ -26,6 +26,8 @@ final class WatchlistViewModel {
 	
 	private var searchText = ""
 	private var timer: Timer?
+	/// Symbols used for price ticks; must stay in sync with the selected watchlist.
+	private var activeScriptTokens: [String] = WatchlistPickerOption.myWatchlist.getSymbols
 	
 	// MARK: - Connection
 	
@@ -54,6 +56,17 @@ final class WatchlistViewModel {
 	func search(query: String) {
 		searchText = query
 		applySortAndFilter()
+	}
+    
+	func setRandomPriceForWatchlistSelection(option: WatchlistPickerOption) {
+		activeScriptTokens = option.getSymbols
+		stopTimer()
+		stocks = []
+		filteredStocks = []
+		applySortAndFilter()
+		WebSocketManager.shared.disconnect()
+		startFeed()
+		// First send happens in `didReceive(.connected)` — socket is not open yet here.
 	}
 	
 	/// Latest row data for a symbol (matches watchlist / filtered list).
@@ -137,7 +150,8 @@ final class WatchlistViewModel {
 	private func startTimerIfNeeded() {
 		guard timer == nil else { return }
 		timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { [weak self] _ in
-			WebSocketManager.shared.sendRandomPrice(scripts: [])
+			guard let self else { return }
+			WebSocketManager.shared.sendRandomPrice(scripts: self.activeScriptTokens)
 		}
 	}
 	
@@ -161,6 +175,7 @@ extension WatchlistViewModel: BroadcastSenderDelegate {
 			case .connected:
 				setLive(true)
 				startTimerIfNeeded()
+//				WebSocketManager.shared.sendRandomPrice(scripts: activeScriptTokens)
 				
 			case .disconnected:
 				setLive(false)

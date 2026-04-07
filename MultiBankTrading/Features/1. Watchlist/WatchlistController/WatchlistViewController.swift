@@ -10,7 +10,7 @@ import UIKit
 class WatchlistViewController: UIViewController {
 	
 	// MARK: - IBOutlets
-	
+	@IBOutlet weak var watchlistMenuButton: UIButton!
 	@IBOutlet weak var titleLabel: UILabel!
 	@IBOutlet weak var liveDot: UIView!
 	@IBOutlet weak var liveLabel: UILabel!
@@ -22,6 +22,7 @@ class WatchlistViewController: UIViewController {
 	// MARK: - ViewModel
 	private let viewModel = WatchlistViewModel()
 	private weak var presentedStockDetails: StockDetailsViewController?
+	private var selectedWatchlist: WatchlistPickerOption = .myWatchlist
 	
 	// MARK: - Lifecycle
 	override func viewDidLoad() {
@@ -40,6 +41,7 @@ class WatchlistViewController: UIViewController {
 		view.backgroundColor = AppColors.background
 		
 		titleLabel.textColor = AppColors.primaryText
+		titleLabel.text = selectedWatchlist.title
 		
 		liveDot.isHidden = true
 		liveDot.backgroundColor = AppColors.liveGreen
@@ -69,6 +71,8 @@ class WatchlistViewController: UIViewController {
 		stockTableView.dataSource = self
 		stockTableView.delegate = self
 		stockTableView.register(StockCell.self, forCellReuseIdentifier: StockCell.reuseID)
+		
+		watchlistMenuButton.setTitle(nil, for: .normal)
 	}
 	
 	// MARK: - IBActions
@@ -76,7 +80,34 @@ class WatchlistViewController: UIViewController {
 		viewModel.toggleFeed()
 	}
 	
-	private func refreshPresentedStockDetailsIfNeeded(updatedIndices: [Int]) {
+	@IBAction func watchlistSelectionTapped(_ sender: Any) {
+		let picker = WatchlistPickerViewController()
+		picker.selectedOption = selectedWatchlist
+		picker.onSelect = { [weak self, weak picker] option in
+			self?.applyWatchlistSelection(option)
+			picker?.dismiss(animated: true)
+		}
+		
+		picker.modalPresentationStyle = .popover
+		if let popover = picker.popoverPresentationController {
+			let anchor: UIView = (sender as? UIView) ?? titleLabel ?? view
+			popover.sourceView = anchor
+			popover.sourceRect = anchor.bounds
+			popover.permittedArrowDirections = [.up, .down]
+			popover.delegate = self
+			popover.backgroundColor = AppColors.sheetBackground
+		}
+		present(picker, animated: true)
+	}
+	
+	private func applyWatchlistSelection(_ option: WatchlistPickerOption) {
+		selectedWatchlist = option
+		titleLabel.text = option.title
+        viewModel.setRandomPriceForWatchlistSelection(option: option)
+        
+	}
+    
+    private func refreshPresentedStockDetailsIfNeeded(updatedIndices: [Int]) {
 		guard let details = presentedStockDetails else { return }
 		for index in updatedIndices where index < viewModel.filteredStocks.count {
 			if viewModel.filteredStocks[index].tokenId == details.tokenId {
@@ -95,7 +126,7 @@ class WatchlistViewController: UIViewController {
 			sheet.detents = [.medium()]
 			sheet.preferredCornerRadius = 20
 		}
-		present(sortFilterVC, animated: true)
+		present(sortFilterVC, animated: false)
 	}
 	
 }
@@ -105,7 +136,7 @@ extension WatchlistViewController: WatchlistViewModelDelegate {
 	
 	func didInsertStocks(at indices: [Int]) {
 		let indexPaths = indices.map { IndexPath(row: $0, section: 0) }
-		stockTableView.insertRows(at: indexPaths, with: .automatic)
+		stockTableView.insertRows(at: indexPaths, with: .none)
 	}
 	
 	func didUpdateStocks(at indices: [Int]) {
@@ -147,7 +178,7 @@ extension WatchlistViewController: UITableViewDataSource, UITableViewDelegate {
 	}
 	
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-		tableView.deselectRow(at: indexPath, animated: true)
+		tableView.deselectRow(at: indexPath, animated: false)
 		let model = viewModel.filteredStocks[indexPath.row]
 		
 		if let existing = presentedViewController as? StockDetailsViewController {
@@ -168,7 +199,7 @@ extension WatchlistViewController: UITableViewDataSource, UITableViewDelegate {
 			sheet.preferredCornerRadius = 20
 			sheet.prefersGrabberVisible = true
 		}
-		present(details, animated: true)
+		present(details, animated: false)
 	}
 	
 }
@@ -195,4 +226,11 @@ extension WatchlistViewController: UISearchBarDelegate {
 	
 }
 
+// MARK: - UIPopoverPresentationControllerDelegate
 
+extension WatchlistViewController: UIPopoverPresentationControllerDelegate {
+	
+	func adaptivePresentationStyle(for controller: UIPresentationController, traitCollection: UITraitCollection) -> UIModalPresentationStyle {
+		.none
+	}
+}

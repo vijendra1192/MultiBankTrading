@@ -46,6 +46,30 @@ enum StockSymbol: String, CaseIterable {
 	static func getType(symbol: String) -> StockSymbol {
 		StockSymbol(rawValue: symbol) ?? .AAPL_OQ
 	}
+    
+    static var techSymbols: [String] {
+        [
+            StockSymbol.AAPL_OQ.rawValue,
+            StockSymbol.GOOGL_OQ.rawValue,
+            StockSymbol.MSFT_OQ.rawValue,
+            StockSymbol.TSLA_OQ.rawValue,
+            StockSymbol.AVGO.rawValue,
+            StockSymbol.META.rawValue,
+            StockSymbol.CSCO.rawValue,
+            StockSymbol.ORCL.rawValue,
+        ]
+    }
+    
+   static var automotiveSymbols: [String] {
+        [
+            StockSymbol.F_N.rawValue,
+            StockSymbol.GM_N.rawValue,
+            StockSymbol.RACE_N.rawValue,
+            StockSymbol.TM_N.rawValue,
+            StockSymbol.VOW.rawValue,
+        ]
+    }
+    
 }
 
 // MARK: script price range & open price

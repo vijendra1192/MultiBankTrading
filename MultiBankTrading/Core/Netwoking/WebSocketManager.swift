@@ -55,33 +55,41 @@ final class WebSocketManager: NSObject, WebSocketManagerProtocol, URLSessionDele
 	}
 	
 	func receiveMessage() {
-		webSocketTask?.receive { [weak self] result in
+		guard let task = webSocketTask else { return }
+		task.receive { [weak self] result in
+			guard let self else { return }
+			// Ignore callbacks from a socket we already replaced or tore down (watchlist switch / reconnect).
+			guard self.webSocketTask === task else { return }
+			
 			switch result {
 			case .success(let success):
 				switch success {
 				case .string(let string):
 					if let jsonData = string.data(using: .utf8),
 					   let models = try? JSONDecoder().decode([BroadcastModel].self, from: jsonData) {
-						self?.delegate?.didReceive(event: .priceUpdate(models))
+						self.delegate?.didReceive(event: .priceUpdate(models))
 					} else {
-						self?.delegate?.didReceive(event: .message(string))
+						self.delegate?.didReceive(event: .message(string))
 					}
 				case .data(let data):
 					if let models = try? JSONDecoder().decode([BroadcastModel].self, from: data) {
-						self?.delegate?.didReceive(event: .priceUpdate(models))
+						self.delegate?.didReceive(event: .priceUpdate(models))
 					} else if let text = String(data: data, encoding: .utf8) {
-						self?.delegate?.didReceive(event: .message(text))
+						self.delegate?.didReceive(event: .message(text))
 					}
 				@unknown default:
 					break
 				}
-			case .failure(let error):
-				self?.delegate?.didReceive(event: .error(error.localizedDescription))
-				self?.isConnected = false
-				self?.reConnect()
+			case .failure:
+				self.isConnected = false
+				guard self.webSocketTask === task else { return }
+				self.delegate?.didReceive(event: .error("Connection lost"))
+				if !self.isManualDisconnect {
+					self.reConnect()
+				}
 				return
 			}
-			self?.receiveMessage()
+			self.receiveMessage()
 		}
 	}
 	
@@ -137,10 +145,14 @@ final class WebSocketManager: NSObject, WebSocketManagerProtocol, URLSessionDele
 	}
 
 	func urlSession(_ session: URLSession,
-					webSocketTask: URLSessionWebSocketTask,
+					webSocketTask closedTask: URLSessionWebSocketTask,
 					didCloseWith closeCode: URLSessionWebSocketTask.CloseCode,
 					reason: Data?) {
 		isConnected = false
+		// Drop stale closes: we already moved to a new socket (e.g. watchlist change) or fully disconnected.
+		if let current = webSocketTask, current !== closedTask {
+			return
+		}
 		delegate?.didReceive(event: .disconnected(code: closeCode.rawValue))
 		if !isManualDisconnect {
 			reConnect()
