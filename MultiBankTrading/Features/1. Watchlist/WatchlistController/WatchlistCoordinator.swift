@@ -45,7 +45,7 @@ final class WatchlistCoordinator: WatchlistCoordinating {
 			sheet.prefersGrabberVisible = true
 		}
 
-		presenter?.present(details, animated: false)
+		presenter?.present(details, animated: true)
 		return details
 	}
 
@@ -59,7 +59,7 @@ final class WatchlistCoordinator: WatchlistCoordinating {
 			sheet.preferredCornerRadius = 20
 		}
 
-		presenter?.present(sortFilterViewController, animated: false)
+		presenter?.present(sortFilterViewController, animated: true)
 	}
 
 	func showWatchlistPicker(
