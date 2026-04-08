@@ -13,7 +13,7 @@ A real-time stock price tracking iOS application that displays live price update
     2.4 Symbol detail screen with live updates
     2.5 Start/Stop price feed control
     2.6 Connection status indicator (Connected / Disconnected)
-    2.7 Search the stocks by name and token id and name
+    2.7 Search the stocks by name and token id
     2.8 Selection of watchlist from multiple watchlist 
 
 
