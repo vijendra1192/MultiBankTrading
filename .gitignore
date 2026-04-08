@@ -1,0 +1,14 @@
+# Xcode / Swift — keep build products and IDE noise out of git
+DerivedData/
+.derivedData/
+DerivedData
+*.xcuserstate
+*.xcuserdatad/
+xcuserdata/
+
+# Swift Package Manager
+.build/
+.swiftpm/
+
+# macOS
+.DS_Store
