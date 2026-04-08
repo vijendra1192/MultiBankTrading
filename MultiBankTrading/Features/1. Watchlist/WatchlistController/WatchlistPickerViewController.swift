@@ -27,7 +27,6 @@ enum WatchlistPickerOption: CaseIterable {
     }
 }
 
-/// Compact watchlist list for popover presentation; solid `AppColors` (no system blur).
 final class WatchlistPickerViewController: UIViewController {
 	
 	var selectedOption: WatchlistPickerOption = .myWatchlist

@@ -80,30 +80,7 @@ final class WatchlistViewModel {
 	// MARK: - Private
 	
 	private func applySortAndFilter() {
-		if searchText.isEmpty {
-			filteredStocks = stocks
-		} else {
-			let query = searchText.lowercased()
-			filteredStocks = stocks.filter {
-				$0.tokenId.lowercased().contains(query)
-				|| $0.name.lowercased().contains(query)
-				|| $0.description.lowercased().contains(query)
-			}
-		}
-		
-		switch currentSort {
-			case .none:
-				break
-			case .priceHighToLow:
-				filteredStocks.sort { $0.latestPrice > $1.latestPrice }
-			case .priceLowToHigh:
-				filteredStocks.sort { $0.latestPrice < $1.latestPrice }
-			case .changeHighToLow:
-				filteredStocks.sort { $0.percentChange > $1.percentChange }
-			case .changeLowToHigh:
-				filteredStocks.sort { $0.percentChange < $1.percentChange }
-		}
-		
+		filteredStocks = WatchlistFiltering.apply(searchText: searchText, sort: currentSort, to: stocks)
 		delegate?.didReloadAllStocks()
 	}
 	

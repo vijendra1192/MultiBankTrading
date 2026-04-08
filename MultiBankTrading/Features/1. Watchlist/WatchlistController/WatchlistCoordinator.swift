@@ -18,7 +18,6 @@ protocol WatchlistCoordinating: AnyObject {
 	)
 }
 
-/// Keeps Watchlist navigation in one place so the view controller stays focused on UI events.
 final class WatchlistCoordinator: WatchlistCoordinating {
 	private weak var presenter: UIViewController?
 
