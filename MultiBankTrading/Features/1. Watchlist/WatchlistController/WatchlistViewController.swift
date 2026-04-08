@@ -21,6 +21,7 @@ class WatchlistViewController: UIViewController {
 	
 	// MARK: - ViewModel
 	private let viewModel = WatchlistViewModel()
+	private lazy var coordinator: WatchlistCoordinating = WatchlistCoordinator(presenter: self)
 	private weak var presentedStockDetails: StockDetailsViewController?
 	private var selectedWatchlist: WatchlistPickerOption = .myWatchlist
 	
@@ -81,23 +82,14 @@ class WatchlistViewController: UIViewController {
 	}
 	
 	@IBAction func watchlistSelectionTapped(_ sender: Any) {
-		let picker = WatchlistPickerViewController()
-		picker.selectedOption = selectedWatchlist
-		picker.onSelect = { [weak self, weak picker] option in
+		coordinator.showWatchlistPicker(
+			from: sender,
+			fallbackAnchorView: titleLabel,
+			selectedOption: selectedWatchlist,
+			popoverDelegate: self
+		) { [weak self] option in
 			self?.applyWatchlistSelection(option)
-			picker?.dismiss(animated: true)
 		}
-		
-		picker.modalPresentationStyle = .popover
-		if let popover = picker.popoverPresentationController {
-			let anchor: UIView = (sender as? UIView) ?? titleLabel ?? view
-			popover.sourceView = anchor
-			popover.sourceRect = anchor.bounds
-			popover.permittedArrowDirections = [.up, .down]
-			popover.delegate = self
-			popover.backgroundColor = AppColors.sheetBackground
-		}
-		present(picker, animated: true)
 	}
 	
 	private func applyWatchlistSelection(_ option: WatchlistPickerOption) {
@@ -118,15 +110,7 @@ class WatchlistViewController: UIViewController {
 	}
 	
 	@objc private func filterButtonTapped() {
-		let sortFilterVC = SortFilterViewController()
-		sortFilterVC.currentSort = viewModel.currentSort
-		sortFilterVC.delegate = self
-		
-		if let sheet = sortFilterVC.sheetPresentationController {
-			sheet.detents = [.medium()]
-			sheet.preferredCornerRadius = 20
-		}
-		present(sortFilterVC, animated: false)
+		coordinator.showSortFilter(currentSort: viewModel.currentSort, delegate: self)
 	}
 	
 }
@@ -180,26 +164,7 @@ extension WatchlistViewController: UITableViewDataSource, UITableViewDelegate {
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 		tableView.deselectRow(at: indexPath, animated: false)
 		let model = viewModel.filteredStocks[indexPath.row]
-		
-		if let existing = presentedViewController as? StockDetailsViewController {
-			existing.tokenId = model.tokenId
-			existing.watchlistViewModel = viewModel
-			existing.configure(with: model)
-			presentedStockDetails = existing
-			return
-		}
-		
-		let details = StockDetailsViewController()
-		details.tokenId = model.tokenId
-		details.watchlistViewModel = viewModel
-		presentedStockDetails = details
-		
-		if let sheet = details.sheetPresentationController {
-			sheet.detents = [.medium(), .large()]
-			sheet.preferredCornerRadius = 20
-			sheet.prefersGrabberVisible = true
-		}
-		present(details, animated: false)
+		presentedStockDetails = coordinator.showStockDetails(for: model, viewModel: viewModel)
 	}
 	
 }
