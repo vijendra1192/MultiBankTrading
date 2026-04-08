@@ -27,4 +27,9 @@ enum AppConstants {
     enum MessageShow {
         static let featureComing = "Feature coming soon..."
     }
+    
+    enum CornerRadius {
+        static let sheetCornerRadius: CGFloat = 20.0
+    }
+    
 }

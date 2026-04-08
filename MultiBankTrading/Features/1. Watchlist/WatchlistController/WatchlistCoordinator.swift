@@ -41,7 +41,7 @@ final class WatchlistCoordinator: WatchlistCoordinating {
 
 		if let sheet = details.sheetPresentationController {
 			sheet.detents = [.medium(), .large()]
-			sheet.preferredCornerRadius = 20
+            sheet.preferredCornerRadius = AppConstants.CornerRadius.sheetCornerRadius
 			sheet.prefersGrabberVisible = true
 		}
 
@@ -56,7 +56,7 @@ final class WatchlistCoordinator: WatchlistCoordinating {
 
 		if let sheet = sortFilterViewController.sheetPresentationController {
 			sheet.detents = [.medium()]
-			sheet.preferredCornerRadius = 20
+			sheet.preferredCornerRadius = AppConstants.CornerRadius.sheetCornerRadius
 		}
 
 		presenter?.present(sortFilterViewController, animated: true)

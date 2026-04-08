@@ -10,14 +10,14 @@ import UIKit
 class WatchlistViewController: UIViewController {
 	
 	// MARK: - IBOutlets
-	@IBOutlet weak var watchlistMenuButton: UIButton!
-	@IBOutlet weak var titleLabel: UILabel!
-	@IBOutlet weak var liveDot: UIView!
-	@IBOutlet weak var liveLabel: UILabel!
-	@IBOutlet weak var feedButton: UIButton!
-	@IBOutlet weak var searchBar: UISearchBar!
-	@IBOutlet weak var filterButton: UIButton!
-	@IBOutlet weak var stockTableView: UITableView!
+	@IBOutlet private weak var watchlistMenuButton: UIButton!
+	@IBOutlet private weak var titleLabel: UILabel!
+	@IBOutlet private weak var liveDot: UIView!
+	@IBOutlet private weak var liveLabel: UILabel!
+	@IBOutlet private weak var feedButton: UIButton!
+	@IBOutlet private weak var searchBar: UISearchBar!
+	@IBOutlet private weak var filterButton: UIButton!
+	@IBOutlet private weak var stockTableView: UITableView!
 	
 	// MARK: - ViewModel
 	private let viewModel = WatchlistViewModel()
