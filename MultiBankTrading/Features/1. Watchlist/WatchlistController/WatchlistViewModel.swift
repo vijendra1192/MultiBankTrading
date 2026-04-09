@@ -7,7 +7,6 @@
 
 import Foundation
 
-
 protocol WatchlistViewModelDelegate: AnyObject {
 	func didInsertStocks(at indices: [Int])
 	func didUpdateStocks(at indices: [Int])
@@ -29,15 +28,21 @@ final class WatchlistViewModel {
 	/// Symbols used for price ticks; must stay in sync with the selected watchlist.
 	private var activeScriptTokens: [String] = WatchlistPickerOption.myWatchlist.getSymbols
 	
+	private let socket: WatchlistSocketServing
+	
+	init(socket: WatchlistSocketServing = WebSocketManager.shared) {
+		self.socket = socket
+	}
+	
 	// MARK: - Connection
 	
 	func startFeed() {
-		WebSocketManager.shared.connect(delegate: self)
+		socket.connect(delegate: self)
 	}
 	
 	func stopFeed() {
 		stopTimer()
-		WebSocketManager.shared.disconnect()
+		socket.disconnect()
 	}
 	
 	func toggleFeed() {
@@ -64,7 +69,7 @@ final class WatchlistViewModel {
 		stocks = []
 		filteredStocks = []
 		applySortAndFilter()
-		WebSocketManager.shared.disconnect()
+		socket.disconnect()
 		startFeed()
 		// First send happens in `didReceive(.connected)` — socket is not open yet here.
 	}
@@ -128,7 +133,7 @@ final class WatchlistViewModel {
 		guard timer == nil else { return }
 		timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { [weak self] _ in
 			guard let self else { return }
-			WebSocketManager.shared.sendRandomPrice(scripts: self.activeScriptTokens)
+			self.socket.sendRandomPrice(scripts: self.activeScriptTokens)
 		}
 	}
 	

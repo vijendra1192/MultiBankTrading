@@ -25,3 +25,12 @@ protocol WebSocketManagerProtocol {
 	func receiveMessage()
 	func reConnect()
 }
+
+/// Socket surface used by `WatchlistViewModel` — inject a mock in unit tests (no real WebSocket).
+protocol WatchlistSocketServing: AnyObject {
+	func connect(delegate: BroadcastSenderDelegate)
+	func disconnect()
+	func sendRandomPrice(scripts: [String])
+}
+
+extension WebSocketManager: WatchlistSocketServing {}
