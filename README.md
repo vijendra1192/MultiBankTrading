@@ -58,6 +58,10 @@ A real-time stock price tracking iOS application that displays live price update
     9.1 Prices are randomly generated for demonstration purposes Can be extended to integrate real stock market APIs
     9.2 Improve unit test coverage for production readiness Add caching and offline support
     9.3 Enhance UI/UX with animations and accessibility support
+    9.4 Extend unit test coverage across multiple components to ensure reliability and maintainability.
+    9.5 Add theme support (Light/Dark mode) to enhance user experience
+    9.6 Add loading and empty states for better user feedback.
+    9.7 Add logging and monitoring for debugging and analytics.
 
 
 10. Notes
