@@ -63,3 +63,10 @@ A real-time stock price tracking iOS application that displays live price update
 10. Notes
     10.1 Focused on clean architecture and real-time data handling
     10.2 Designed to be scalable and production-ready
+    
+
+11. Unit test case
+    11.1 WatchlistFiltering
+    11.2 MockWatchlistSocket
+    11.3 MockWatchlistViewModelDelegate
+    11.4 WatchlistViewModelTests
